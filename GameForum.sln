@@ -1,0 +1,77 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.7.34009.444
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Game.Forum.Domain", "Game.Forum.Domain\Game.Forum.Domain.csproj", "{100F4D86-FE94-46C8-9CAA-4C1A0219BE6F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1-Core", "1-Core", "{89CBBADD-2268-4C83-877F-B9E9E29D9B84}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Game.Forum.Application", "Game.Forum.Application\Game.Forum.Application.csproj", "{61FD1469-D690-4C47-8CC9-4F7A8A29C737}"
+	ProjectSection(ProjectDependencies) = postProject
+		{EB23DE6A-A7B2-44A9-95CF-B75EAAD5E6E8} = {EB23DE6A-A7B2-44A9-95CF-B75EAAD5E6E8}
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Game.Forum.Infrastructure", "Game.Forum.Infrastructure\Game.Forum.Infrastructure.csproj", "{EB23DE6A-A7B2-44A9-95CF-B75EAAD5E6E8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2-Infrastructure", "2-Infrastructure", "{A33A18C6-2F9B-4C53-BBC5-DB4169C70D4A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Game.Forum.Persistence", "Game.Forum.Persistence\Game.Forum.Persistence.csproj", "{EEAA8885-A18B-4ED3-88CF-003E372F0CCB}"
+	ProjectSection(ProjectDependencies) = postProject
+		{61FD1469-D690-4C47-8CC9-4F7A8A29C737} = {61FD1469-D690-4C47-8CC9-4F7A8A29C737}
+		{D7D6B899-FBBD-49E9-AEBE-EADBC6EBBD3D} = {D7D6B899-FBBD-49E9-AEBE-EADBC6EBBD3D}
+		{EB23DE6A-A7B2-44A9-95CF-B75EAAD5E6E8} = {EB23DE6A-A7B2-44A9-95CF-B75EAAD5E6E8}
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Game.Forum.Utils", "Game.Forum.Utils\Game.Forum.Utils.csproj", "{D7D6B899-FBBD-49E9-AEBE-EADBC6EBBD3D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3-Api", "3-Api", "{6D1FD745-3D8E-48DE-8647-72A1F140575F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Game.Forum.Api", "Game.Forum.Api\Game.Forum.Api.csproj", "{1DA8F3FA-7A6F-4296-BECE-6615A0E01CEC}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{100F4D86-FE94-46C8-9CAA-4C1A0219BE6F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{100F4D86-FE94-46C8-9CAA-4C1A0219BE6F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{100F4D86-FE94-46C8-9CAA-4C1A0219BE6F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{100F4D86-FE94-46C8-9CAA-4C1A0219BE6F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{61FD1469-D690-4C47-8CC9-4F7A8A29C737}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{61FD1469-D690-4C47-8CC9-4F7A8A29C737}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{61FD1469-D690-4C47-8CC9-4F7A8A29C737}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{61FD1469-D690-4C47-8CC9-4F7A8A29C737}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EB23DE6A-A7B2-44A9-95CF-B75EAAD5E6E8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EB23DE6A-A7B2-44A9-95CF-B75EAAD5E6E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EB23DE6A-A7B2-44A9-95CF-B75EAAD5E6E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EB23DE6A-A7B2-44A9-95CF-B75EAAD5E6E8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EEAA8885-A18B-4ED3-88CF-003E372F0CCB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EEAA8885-A18B-4ED3-88CF-003E372F0CCB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EEAA8885-A18B-4ED3-88CF-003E372F0CCB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EEAA8885-A18B-4ED3-88CF-003E372F0CCB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D7D6B899-FBBD-49E9-AEBE-EADBC6EBBD3D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D7D6B899-FBBD-49E9-AEBE-EADBC6EBBD3D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D7D6B899-FBBD-49E9-AEBE-EADBC6EBBD3D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D7D6B899-FBBD-49E9-AEBE-EADBC6EBBD3D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1DA8F3FA-7A6F-4296-BECE-6615A0E01CEC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1DA8F3FA-7A6F-4296-BECE-6615A0E01CEC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1DA8F3FA-7A6F-4296-BECE-6615A0E01CEC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1DA8F3FA-7A6F-4296-BECE-6615A0E01CEC}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{100F4D86-FE94-46C8-9CAA-4C1A0219BE6F} = {89CBBADD-2268-4C83-877F-B9E9E29D9B84}
+		{61FD1469-D690-4C47-8CC9-4F7A8A29C737} = {89CBBADD-2268-4C83-877F-B9E9E29D9B84}
+		{EB23DE6A-A7B2-44A9-95CF-B75EAAD5E6E8} = {A33A18C6-2F9B-4C53-BBC5-DB4169C70D4A}
+		{EEAA8885-A18B-4ED3-88CF-003E372F0CCB} = {A33A18C6-2F9B-4C53-BBC5-DB4169C70D4A}
+		{D7D6B899-FBBD-49E9-AEBE-EADBC6EBBD3D} = {A33A18C6-2F9B-4C53-BBC5-DB4169C70D4A}
+		{1DA8F3FA-7A6F-4296-BECE-6615A0E01CEC} = {6D1FD745-3D8E-48DE-8647-72A1F140575F}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {2D445642-267A-44F8-955E-5E78645B5837}
+	EndGlobalSection
+EndGlobal
