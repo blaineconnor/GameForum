@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Game.Forum.Persistence.Migrations
 {
     [DbContext(typeof(GameForumContext))]
-    [Migration("20230820105520_GameForum")]
+    [Migration("20230820141113_GameForum")]
     partial class GameForum
     {
         /// <inheritdoc />

@@ -1,9 +1,8 @@
 ﻿using Game.Forum.Domain.Entities;
-using Game.Forum.Persistence.Mappings;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Ahlatci.Shop.Persistence.Mappings
+namespace Game.Forum.Persistence.Mappings
 {
     public class CategoryMapping : BaseEntityMapping<Category>
     {

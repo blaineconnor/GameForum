@@ -9,3 +9,4 @@ namespace Game.Forum.Domain.UnitofWork
         public Task<bool> CommitAsync();
     }
 }
+

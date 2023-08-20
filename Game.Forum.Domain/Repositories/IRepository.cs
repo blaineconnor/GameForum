@@ -4,7 +4,6 @@ using System.Linq.Expressions;
 
 namespace Game.Forum.Domain.Repositories
 {
-
     public interface IRepository<T> where T : BaseEntity, IEntity, ISoftDelete, IHasUpdatedAt
     {
         Task<IQueryable<T>> GetAllAsync();
@@ -17,5 +16,4 @@ namespace Game.Forum.Domain.Repositories
         Task<IQueryable<T>> GetByFilterAsync(Func<User, bool> value, Expression<Func<T, bool>> filter);
         Task<User> GetByFilterAsync(Func<User, bool> value, string v);
     }
-
 }

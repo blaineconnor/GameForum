@@ -1,5 +1,6 @@
-﻿using Game.Forum.Application.Models.DTOs.Response;
-using Game.Forum.Application.Models.DTOs.Vote;
+﻿using Game.Forum.Application.Models.DTOs.Vote;
+using Game.Forum.Application.Models.RequestModels.Custom;
+using Game.Forum.Application.Models.RequestModels.Votes;
 using Game.Forum.Application.Services.Abstraction;
 using Game.Forum.Domain.Cache.Redis;
 using Microsoft.AspNetCore.Mvc;
@@ -26,7 +27,7 @@ namespace Game.Forum.Api.Controllers
         {
             await _voteService.AddVote(addVote);
             await _redisCache.Remove(GetAllQuestionsContractKey);
-            return Ok(CustomResponseDto.Success(null, HttpStatusCode.OK));
+            return Ok(ResponseVM.Success(null, HttpStatusCode.OK));
 
         }
     }

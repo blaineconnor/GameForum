@@ -9,9 +9,6 @@ namespace Game.Forum.Persistence.Context
     public partial class GameForumContext : DbContext
     {
         private readonly IUserService _userService;
-        public GameForumContext()
-        {
-        }
 
         public GameForumContext(DbContextOptions<GameForumContext> options, IUserService userService) : base(options)
         {
@@ -24,6 +21,7 @@ namespace Game.Forum.Persistence.Context
         public virtual DbSet<QuestionView> QuestionViews { get; set; } = null!;
         public virtual DbSet<User> Users { get; set; } = null!;
         public virtual DbSet<Vote> Votes { get; set; } = null!;
+        public virtual DbSet<Category> Categories { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -39,6 +37,7 @@ namespace Game.Forum.Persistence.Context
             modelBuilder.Entity<Answer>().HasQueryFilter(e => !e.IsDeleted);
             modelBuilder.Entity<Favorite>().HasQueryFilter(e => !e.IsDeleted);
             modelBuilder.Entity<Category>().HasQueryFilter(e => !e.IsDeleted);
+            OnModelCreatingPartial(modelBuilder);
         }
 
         public override Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
@@ -84,5 +83,6 @@ namespace Game.Forum.Persistence.Context
 
             return base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
         }
+        partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
     }
 }

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Game.Forum.Application.Behaviors;
 using Game.Forum.Application.Exceptions;
 using Game.Forum.Application.Models.DTOs.Delete;
 using Game.Forum.Application.Models.DTOs.Question;
@@ -20,6 +21,8 @@ namespace Game.Forum.Application.Services.Implementation
         private readonly IQuestionDetailCache _questionDetailCache;
         private readonly IVoteCache _voteCache;
 
+
+        [PerformanceBehavior]
         public QuestionService(IQuestionRepository questionRepository, IMapper mapper, IFavoriteRepository favoriteRepository,
             IUserRepository userRepository, IFavoriteCache favoriteCache = null, IQuestionDetailCache questionDetailCache = null, IVoteCache voteCache = null)
         {
@@ -81,12 +84,14 @@ namespace Game.Forum.Application.Services.Implementation
             if (favorite)
             { throw new ClientSideException("bi kere daha favorilenemez"); }
         }
-        private async Task CheckIfPageExist(Pagination pagination, PaginationResponse<GetAllQuestions> questions)
+        private Task CheckIfPageExist(Pagination pagination, PaginationResponse<GetAllQuestions> questions)
         {
             if (pagination.Page > questions.Pagination.TotalPage)
             {
                 throw new ClientSideException("sayfada veri yok");
             }
+
+            return Task.CompletedTask;
         }
 
         public async Task<PaginationResponse<GetAllQuestions>> GetNewestQuestions(Pagination pagination)

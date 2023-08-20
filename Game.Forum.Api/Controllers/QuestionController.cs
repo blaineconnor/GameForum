@@ -1,5 +1,5 @@
 ﻿using Game.Forum.Application.Models.DTOs.Delete;
-using Game.Forum.Application.Models.DTOs.Response;
+using Game.Forum.Application.Models.RequestModels.Custom;
 using Game.Forum.Application.Models.RequestModels.Question;
 using Game.Forum.Application.Services.Abstraction;
 using Game.Forum.Domain.Entities;
@@ -20,57 +20,57 @@ namespace Game.Forum.Api.Controllers
         }
 
         [HttpPost("[action]")]
-        public async Task<IActionResult> AddQuestion(AddQuestionVM addQuestion)
+        public async Task<IActionResult> AddQuestion(AddQuestionVM addQuestionVM)
         {
-            await _questionService.AddQuestionAsync(addQuestion);
-            return Ok(CustomResponseDto.Success(null, HttpStatusCode.OK)); // null yerine addQuestionContract yazılabilir diye düşündük
+            await _questionService.AddQuestionAsync(addQuestionVM);
+            return Ok(ResponseVM.Success(null, HttpStatusCode.OK)); // null yerine addQuestionContract yazılabilir diye düşündük
         }
         [HttpPost("[action]")]
-        public async Task<IActionResult> GetNewestQuestion(Pagination pagination)
+        public async Task<IActionResult> GetNewestQuestion(Pagination paginationVM)
         {
-            var questions = await _questionService.GetNewestQuestions(pagination);
-            return Ok(CustomResponseDto.Success(questions, HttpStatusCode.OK));
-        }
-
-        [HttpPost("[action]")]
-        public async Task<IActionResult> GetQuestionsByDescendingVote(Pagination pagination)
-        {
-            var questions = await _questionService.GetQuestionsByDescendingVote(pagination);
-            return Ok(CustomResponseDto.Success(questions, HttpStatusCode.OK));
+            var questions = await _questionService.GetNewestQuestions(paginationVM);
+            return Ok(ResponseVM.Success(questions, HttpStatusCode.OK));
         }
 
         [HttpPost("[action]")]
-        public async Task<IActionResult> GetMostAnsweredQuestion(Pagination pagination)
+        public async Task<IActionResult> GetQuestionsByDescendingVote(Pagination paginationVM)
         {
-            var questions = await _questionService.GetQuestionsByDescendingAnswer(pagination);
-            return Ok(CustomResponseDto.Success(questions, HttpStatusCode.OK));
+            var questions = await _questionService.GetQuestionsByDescendingVote(paginationVM);
+            return Ok(ResponseVM.Success(questions, HttpStatusCode.OK));
+        }
+
+        [HttpPost("[action]")]
+        public async Task<IActionResult> GetMostAnsweredQuestion(Pagination paginationVM)
+        {
+            var questions = await _questionService.GetQuestionsByDescendingAnswer(paginationVM);
+            return Ok(ResponseVM.Success(questions, HttpStatusCode.OK));
         }
 
 
         [HttpPost("[action]")]
-        public async Task<IActionResult> AddQuestionToFav(AddQuestionToFavVM addQuestionToFav)
+        public async Task<IActionResult> AddQuestionToFav(AddQuestionToFavVM addQuestionToFavVM)
         {
 
-            await _questionService.AddQuestionToFavAsync(addQuestionToFav);
-            return Ok(CustomResponseDto.Success(null, HttpStatusCode.OK));
+            await _questionService.AddQuestionToFavAsync(addQuestionToFavVM);
+            return Ok(ResponseVM.Success(null, HttpStatusCode.OK));
         }
         [HttpGet("[action]")]
         public async Task<IActionResult> GetQuestionDetail(int id, int userId)
         {
             var questionDetails = await _questionService.GetQuestionsWithDetail(id, userId);
-            return Ok(CustomResponseDto.Success(questionDetails, HttpStatusCode.OK));
+            return Ok(ResponseVM.Success(questionDetails, HttpStatusCode.OK));
         }
         [HttpPost("[action]")]
-        public async Task<IActionResult> DeleteQuestion(DeleteDto deleteContract)
+        public async Task<IActionResult> DeleteQuestion(DeleteDto deleteDto)
         {
-            await _questionService.DeleteQuestion(deleteContract);
-            return Ok(CustomResponseDto.Success(null, HttpStatusCode.OK));
+            await _questionService.DeleteQuestion(deleteDto);
+            return Ok(ResponseVM.Success(null, HttpStatusCode.OK));
         }
         [HttpPost("[action]")]
-        public async Task<IActionResult> DeleteFavorite(DeleteDto deleteContract)
+        public async Task<IActionResult> DeleteFavorite(DeleteDto deleteDto)
         {
-            await _questionService.DeleteFavorite(deleteContract);
-            return Ok(CustomResponseDto.Success(null, HttpStatusCode.OK));
+            await _questionService.DeleteFavorite(deleteDto);
+            return Ok(ResponseVM.Success(null, HttpStatusCode.OK));
         }
 
 

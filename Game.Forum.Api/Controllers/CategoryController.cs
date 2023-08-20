@@ -2,13 +2,18 @@ using Game.Forum.Application.Models.DTOs.Category;
 using Game.Forum.Application.Models.RequestModels.Categories;
 using Game.Forum.Application.Services.Abstraction;
 using Game.Forum.Application.Wrapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Game.Forum.Api.Controllers
 {
 
+    //Endpoint url : [ControllerRoute]/[ActionRoute]
+    //category/getAll
+
     [ApiController]
     [Route("category")]
+    [Authorize(Roles = "Admin")]
     public class CategoryController : ControllerBase
     {
         private readonly ICategoryService _categoryService;
@@ -19,6 +24,7 @@ namespace Game.Forum.Api.Controllers
         }
 
         [HttpGet("get")]
+        [AllowAnonymous]
         public async Task<ActionResult<Result<List<CategoryDto>>>> GetAllCategories()
         {
             var categories = await _categoryService.GetAllCategories();
@@ -26,6 +32,7 @@ namespace Game.Forum.Api.Controllers
         }
 
         [HttpGet("get/{id:int}")]
+        [AllowAnonymous]
         public async Task<ActionResult<Result<CategoryDto>>> GetCategoryById(int id)
         {
             var category = await _categoryService.GetCategoryById(new GetCategoryByIdVM { Id = id });

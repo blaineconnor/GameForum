@@ -7,6 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Models\DTOs\Topic\**" />
+    <EmbeddedResource Remove="Models\DTOs\Topic\**" />
+    <None Remove="Models\DTOs\Topic\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AspectCore.Abstractions" Version="2.4.0" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
     <PackageReference Include="EntityFramework" Version="6.4.4" />
@@ -24,10 +30,6 @@
   <ItemGroup>
     <ProjectReference Include="..\Game.Forum.Domain\Game.Forum.Domain.csproj" />
     <ProjectReference Include="..\Game.Forum.Utils\Game.Forum.Utils.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Models\DTOs\Topic\" />
   </ItemGroup>
 
 </Project>

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Game.Forum.Application.Behaviors;
 using Game.Forum.Application.Exceptions;
 using Game.Forum.Application.Models.DTOs.Delete;
 using Game.Forum.Application.Models.RequestModels.Answers;
@@ -28,6 +29,7 @@ namespace Game.Forum.Application.Services.Implementation
             _redisCache = redisCache;
         }
 
+        [PerformanceBehavior]
         public async Task AddAnswerAsync(AddAnswerVM addAnswerVM)
         {
 

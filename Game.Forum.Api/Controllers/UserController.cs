@@ -1,5 +1,5 @@
 ﻿using Game.Forum.Application.Models.DTOs.Delete;
-using Game.Forum.Application.Models.DTOs.Response;
+using Game.Forum.Application.Models.RequestModels.Custom;
 using Game.Forum.Application.Models.RequestModels.Users;
 using Game.Forum.Application.Services.Abstraction;
 using Microsoft.AspNetCore.Mvc;
@@ -22,21 +22,21 @@ namespace Game.Forum.Api.Controllers
         public async Task<IActionResult> AddUser(RegisterVM user)
         {
             await _service.Register(user);
-            return Ok(CustomResponseDto.Success(null, HttpStatusCode.OK));
+            return Ok(ResponseVM.Success(null, HttpStatusCode.OK));
         }
 
         [HttpPost("[action]")]
         public async Task<IActionResult> Login(LoginVM login)
         {
             await _service.Login(login);
-            return Ok(CustomResponseDto.Success(null, HttpStatusCode.OK));
+            return Ok(ResponseVM.Success(null, HttpStatusCode.OK));
         }
 
         [HttpPost("[action]")]
-        public async Task<IActionResult> DeleteUser(DeleteDto delete)
+        public async Task<IActionResult> DeleteUser(DeleteDto deleteDto)
         {
-            await _service.DeleteUser(delete);
-            return Ok(CustomResponseDto.Success(null, HttpStatusCode.OK));
+            await _service.DeleteUser(deleteDto);
+            return Ok(ResponseVM.Success(null, HttpStatusCode.OK));
         }
 
     }

@@ -70,25 +70,3 @@ namespace Game.Forum.Api.Middleware
         }
     }
 }
-//var originalBodyStream = httpContext.Response.Body;
-//httpContext.Request.EnableBuffering();
-//var originalRequestBodyStream = httpContext.Request.Body;
-
-//using (var requestBody = _recyclableMemoryStreamManager.GetStream())
-//{
-//    httpContext.Request.Body = requestBody;
-//    httpContext.Request.Body.Seek(0, SeekOrigin.Begin);
-//    var requestText = await new StreamReader(httpContext.Request.Body).ReadToEndAsync();
-//    httpContext.Request.Body.Seek(0, SeekOrigin.Begin);
-//    await httpContext.Request.Body.CopyToAsync(originalRequestBodyStream);
-//    _logger.LogInformation($"Request Body is: {requestText}");
-//}
-
-//using var responseBody = _recyclableMemoryStreamManager.GetStream();
-//httpContext.Response.Body = responseBody;
-//await _next.Invoke(httpContext);
-//httpContext.Response.Body.Seek(0, SeekOrigin.Begin);
-//var responseText = await new StreamReader(httpContext.Response.Body).ReadToEndAsync();
-//httpContext.Response.Body.Seek(0, SeekOrigin.Begin);
-//await httpContext.Response.Body.CopyToAsync(originalBodyStream);
-//_logger.LogInformation($"Response Body is: {responseText}");
