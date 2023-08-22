@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Game.Forum.Persistence.Mappings
 {
-    public class QuestionMapping : IEntityMapping<Question>
+    public class QuestionMapping : BaseEntityMapping<Question>
     {
         public override void ConfigureDerivedEntityMapping(EntityTypeBuilder<Question> builder)
         {

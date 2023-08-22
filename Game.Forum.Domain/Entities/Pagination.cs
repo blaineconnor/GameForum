@@ -1,8 +1,9 @@
-﻿using System.Text.Json.Serialization;
+﻿using Game.Forum.Domain.Common;
+using System.Text.Json.Serialization;
 
 namespace Game.Forum.Domain.Entities
 {
-    public class Pagination
+    public class Pagination : BaseEntity
     {
         [JsonIgnore]
         public int TotalPage { get; set; }

@@ -2,7 +2,7 @@
 
 namespace Game.Forum.Application.Models.DTOs.Delete
 {
-    public class DeleteDto : IEntity
+    public class DeleteDto : BaseEntity
     {
         public int Id { get; set; }
 

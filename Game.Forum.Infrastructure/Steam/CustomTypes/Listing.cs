@@ -77,7 +77,15 @@ namespace Game.Forum.Infrastructure.Steam.CustomTypes
             }
             else
             {
-                var priceWithoutSymbol = priceCandidate.Split(' ')[0];
+                string priceWithoutSymbol = "";
+                if(priceCandidate.Contains(" "))
+                {
+                    priceWithoutSymbol = priceCandidate.Split(' ')[0];
+                }
+                else
+                {
+                    priceWithoutSymbol = priceCandidate.Substring(1);
+                }
                 price = double.Parse(priceWithoutSymbol, cultureInfo);
                 saleType = sType.CostsMoney;
             }

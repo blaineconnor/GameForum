@@ -2,13 +2,13 @@
 
 namespace Game.Forum.Domain.Entities
 {
-    public class Favorite : IEntity, ISoftDelete
+    public class Favorite : BaseEntity
     {
         public int Id { get; set; }
         public int UserId { get; set; }
         public int QuestionId { get; set; }
         public DateTime CreatedTime { get; set; }
-        public bool IsDeleted { get; set; }
+        public bool? IsDeleted { get; set; }
 
         #region NavigationProperty
 

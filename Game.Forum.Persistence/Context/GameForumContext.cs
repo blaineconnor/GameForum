@@ -1,6 +1,7 @@
-﻿using Game.Forum.Application.Services.Abstraction;
-using Game.Forum.Domain.Common;
+﻿using Game.Forum.Domain.Common;
 using Game.Forum.Domain.Entities;
+using Game.Forum.Domain.Services.Abstraction;
+using Game.Forum.Persistence.Mappings;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 
@@ -8,13 +9,14 @@ namespace Game.Forum.Persistence.Context
 {
     public partial class GameForumContext : DbContext
     {
-        private readonly IUserService _userService;
+        private readonly ILoggedUserService _loggedUserService;
 
-        public GameForumContext(DbContextOptions<GameForumContext> options, IUserService userService) : base(options)
+        public GameForumContext(DbContextOptions<GameForumContext> options, ILoggedUserService loggedUserService) : base(options)
         {
-            _userService = userService;
+            _loggedUserService = loggedUserService;
         }
 
+        public virtual DbSet<Account> Accounts { get; set; }
         public virtual DbSet<Answer> Answers { get; set; } = null!;
         public virtual DbSet<Favorite> Favorites { get; set; } = null!;
         public virtual DbSet<Question> Questions { get; set; } = null!;
@@ -23,21 +25,26 @@ namespace Game.Forum.Persistence.Context
         public virtual DbSet<Vote> Votes { get; set; } = null!;
         public virtual DbSet<Category> Categories { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            base.OnConfiguring(optionsBuilder);
-            optionsBuilder.UseSqlServer(@"Server=DESKTOP-147DLI1\SQLEXPRESS;Database=GameForumDB;Trusted_Connection=True;TrustServerCertificate=True");
-        }
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            //modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+            modelBuilder.ApplyConfiguration(new AccountMapping());
+            modelBuilder.ApplyConfiguration(new AnswerMapping());
+            modelBuilder.ApplyConfiguration(new CategoryMapping());
+            modelBuilder.ApplyConfiguration(new FavoriteMapping());
+            modelBuilder.ApplyConfiguration(new QuestionMapping());
+            modelBuilder.ApplyConfiguration(new QuestionViewMapper());
+            modelBuilder.ApplyConfiguration(new UserMapping());
+            modelBuilder.ApplyConfiguration(new VoteMapping());
 
-            modelBuilder.Entity<Question>().HasQueryFilter(e => !e.IsDeleted);
-            modelBuilder.Entity<User>().HasQueryFilter(e => !e.IsDeleted);
-            modelBuilder.Entity<Answer>().HasQueryFilter(e => !e.IsDeleted);
-            modelBuilder.Entity<Favorite>().HasQueryFilter(e => !e.IsDeleted);
-            modelBuilder.Entity<Category>().HasQueryFilter(e => !e.IsDeleted);
-            OnModelCreatingPartial(modelBuilder);
+            modelBuilder.Entity<Account>().HasQueryFilter(e => e.IsDeleted == null || (e.IsDeleted.HasValue && !e.IsDeleted.Value));
+            modelBuilder.Entity<Question>().HasQueryFilter(e => e.IsDeleted == null || (e.IsDeleted.HasValue && !e.IsDeleted.Value));
+            modelBuilder.Entity<User>().HasQueryFilter(e => e.IsDeleted == null || (e.IsDeleted.HasValue && !e.IsDeleted.Value));
+            modelBuilder.Entity<Answer>().HasQueryFilter(e => e.IsDeleted == null || (e.IsDeleted.HasValue && !e.IsDeleted.Value));
+            modelBuilder.Entity<Favorite>().HasQueryFilter(e => !e.IsDeleted == null || (e.IsDeleted.HasValue && !e.IsDeleted.Value));
+            modelBuilder.Entity<Category>().HasQueryFilter(e => e.IsDeleted == null || (e.IsDeleted.HasValue && !e.IsDeleted.Value));
+            modelBuilder.Entity<QuestionView>().HasQueryFilter(e => e.IsDeleted == null || (e.IsDeleted.HasValue && !e.IsDeleted.Value));
+            modelBuilder.Entity<Vote>().HasQueryFilter(e => e.IsDeleted == null || (e.IsDeleted.HasValue && !e.IsDeleted.Value));
         }
 
         public override Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
@@ -55,24 +62,24 @@ namespace Game.Forum.Persistence.Context
                     entry.State = EntityState.Modified;
                 }
 
-                if (entry.Entity is BaseEntity baseEntity)
+                if (entry.Entity is AuditableEntity auditableEntity)
                 {
                     switch (entry.State)
                     {
                         //update
                         case EntityState.Modified:
-                            baseEntity.UpdatedDate = DateTime.Now;
-                            baseEntity.UpdatedBy = _userService.Username ?? "admin";
+                            auditableEntity.ModifiedDate = DateTime.Now;
+                            auditableEntity.ModifiedBy = _loggedUserService.Username ?? "admin";
                             break;
                         //insert
                         case EntityState.Added:
-                            baseEntity.CreateDate = DateTime.Now;
-                            baseEntity.CreatedBy = _userService.Username ?? "admin";
+                            auditableEntity.CreateDate = DateTime.Now;
+                            auditableEntity.CreatedBy = _loggedUserService.Username ?? "admin";
                             break;
                         //delete
                         case EntityState.Deleted:
-                            baseEntity.UpdatedDate = DateTime.Now;
-                            baseEntity.UpdatedBy = _userService.Username ?? "admin";
+                            auditableEntity.ModifiedDate = DateTime.Now;
+                            auditableEntity.ModifiedBy = _loggedUserService.Username ?? "admin";
                             break;
                         default:
                             break;
@@ -83,6 +90,7 @@ namespace Game.Forum.Persistence.Context
 
             return base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
         }
-        partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
+
+
     }
 }

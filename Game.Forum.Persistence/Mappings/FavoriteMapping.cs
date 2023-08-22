@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Game.Forum.Persistence.Mappings
 {
-    public class FavoriteMapping : IEntityMapping<Favorite>
+    public class FavoriteMapping : BaseEntityMapping<Favorite>
     {
         public override void ConfigureDerivedEntityMapping(EntityTypeBuilder<Favorite> builder)
         {

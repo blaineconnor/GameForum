@@ -1,6 +1,8 @@
-﻿namespace Game.Forum.Domain.Entities
+﻿using Game.Forum.Domain.Common;
+
+namespace Game.Forum.Domain.Entities
 {
-    public class UserResponse
+    public class UserResponse : BaseEntity
     {
         public string Name { get; set; }
         public string Surname { get; set; }

@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Game.Forum.Persistence.Mappings
 {
-    public class AnswerMapping : IEntityMapping<Answer>
+    public class AnswerMapping : BaseEntityMapping<Answer>
     {
         public override void ConfigureDerivedEntityMapping(EntityTypeBuilder<Answer> builder)
         {
@@ -21,14 +21,12 @@ namespace Game.Forum.Persistence.Mappings
             builder.HasOne(d => d.Question)
                 .WithMany(p => p.Answers)
                 .HasForeignKey(d => d.QuestionId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Answer_Question");
+                .OnDelete(DeleteBehavior.NoAction);
 
             builder.HasOne(d => d.User)
                 .WithMany(p => p.Answers)
-                .HasForeignKey(d => d.Id)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Answer_User");
+                .HasForeignKey(d => d.UserId)
+                .OnDelete(DeleteBehavior.NoAction);
 
             builder.ToTable("ANSWERS");
         }

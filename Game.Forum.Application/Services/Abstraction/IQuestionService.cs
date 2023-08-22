@@ -1,5 +1,4 @@
 ﻿using Game.Forum.Application.Models.DTOs.Delete;
-using Game.Forum.Application.Models.DTOs.Question;
 using Game.Forum.Application.Models.RequestModels.Question;
 using Game.Forum.Domain.Entities;
 
@@ -20,7 +19,9 @@ namespace Game.Forum.Application.Services.Abstraction
 
         Task AddQuestionAsync(AddQuestionVM addQuestionVM);
 
-        Task AddQuestionToFavAsync(AddQuestionToFavVM addQuestionToFavVM);
+        Task AddQuestionToFavAsync(AddQuestionToFav addQuestionToFav);
+
+        Task UpdateQuestion(UpdateQuestionVM updateQuestionVM);
 
         Task DeleteQuestion(DeleteDto deleteDto);
         Task DeleteFavorite(DeleteDto deleteDto);

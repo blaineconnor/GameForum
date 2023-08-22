@@ -6,7 +6,7 @@ namespace Game.Forum.Domain.Entities
 {
     [JsonObject(IsReference = true)] // Döngüsel Referansları yönetmeye yardımcı olur
 
-    public class Question : IEntity, ISoftDelete, IHasUpdatedAt
+    public class Question : BaseEntity
     {
         public Question()
         {
@@ -23,7 +23,7 @@ namespace Game.Forum.Domain.Entities
         public string Title { get; set; } = null!;
         public DateTime? UpdatedTime { get; set; }
         public string Content { get; set; } = null!;
-        public bool IsDeleted { get; set; }
+        public bool? IsDeleted { get; set; }
 
         #region NavigationProperties
 

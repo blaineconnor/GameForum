@@ -15,7 +15,6 @@ namespace Game.Forum.Infrastructure.Steam.Services.Implementation
             //Yeni dil olursa buraya ekleme yap.
             CultureList.Add(Culture.tr_TR, new CultureValue { CultureName = "turkish", CultureShortName = "tr", CultureInfo = new CultureInfo("TR-tr") });
             CultureList.Add(Culture.en_US, new CultureValue { CultureName = "english", CultureShortName = "us", CultureInfo = new CultureInfo("EN-us") });
-            CultureList.Add(Culture.es_ES, new CultureValue { CultureName = "spanish", CultureShortName = "es", CultureInfo = new CultureInfo("ES-es") });
         }
 
         public CultureValue GetCultureValue(Culture culture)

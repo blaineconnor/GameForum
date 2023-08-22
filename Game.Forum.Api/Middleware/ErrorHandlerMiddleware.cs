@@ -1,5 +1,5 @@
 ﻿using Game.Forum.Application.Exceptions;
-using Game.Forum.Application.Models.RequestModels.Custom;
+using Game.Forum.Application.Models.RequestModels.User;
 using System.Net;
 using System.Text.Json;
 
@@ -37,7 +37,7 @@ namespace Game.Forum.Api.Middleware
                         httpStatusCode = HttpStatusCode.InternalServerError;
                         break;
                 }
-                var result = ResponseVM.Fail(error.Message, httpStatusCode);
+                var result = UserResponseVM.Fail(error.Message, httpStatusCode);
                 await response.WriteAsync(JsonSerializer.Serialize(result));
                 _logger.LogError(error, $"Hatanın sebebi: {error.Message}");
             }

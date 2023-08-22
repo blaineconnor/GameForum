@@ -1,6 +1,6 @@
 ﻿using Game.Forum.Application.Models.DTOs.Delete;
 using Game.Forum.Application.Models.RequestModels.Answers;
-using Game.Forum.Application.Models.RequestModels.Custom;
+using Game.Forum.Application.Models.RequestModels.User;
 using Game.Forum.Application.Services.Abstraction;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
@@ -22,13 +22,13 @@ namespace Game.Forum.Api.Controllers
         public async Task<IActionResult> AddAnswer(AddAnswerVM addAnswerVM)
         {
             await _answerService.AddAnswerAsync(addAnswerVM);
-            return Ok(ResponseVM.Success(null, HttpStatusCode.OK));
+            return Ok(UserResponseVM.Success(null, HttpStatusCode.OK));
         }
         [HttpPost("[action]")]
-        public async Task<IActionResult> DeleteAnswer(DeleteDto deleteDto)
+        public async Task<IActionResult> DeleteAnswer(DeleteAnswerVM deleteAnswerVM)
         {
-            await _answerService.DeleteAnswerAsync(deleteDto);
-            return Ok(ResponseVM.Success("Yanıt Silindi", HttpStatusCode.OK));
+            await _answerService.DeleteAnswerAsync(deleteAnswerVM);
+            return Ok(UserResponseVM.Success("Yanıt Silindi", HttpStatusCode.OK));
 
         }
 

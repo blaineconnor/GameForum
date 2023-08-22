@@ -21,7 +21,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Game.Forum.Application\Game.Forum.Application.csproj" />
     <ProjectReference Include="..\Game.Forum.Domain\Game.Forum.Domain.csproj" />
   </ItemGroup>
 

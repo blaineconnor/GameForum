@@ -5,7 +5,7 @@ namespace Game.Forum.Domain.UnitofWork
 {
     public interface IUnitofWork : IDisposable
     {
-        public IRepository<T> GetRepository<T>() where T : BaseEntity, IEntity, ISoftDelete, IHasUpdatedAt;
+        public IRepository<T> GetRepository<T>() where T : BaseEntity;
         public Task<bool> CommitAsync();
     }
 }

@@ -1,6 +1,8 @@
-﻿namespace Game.Forum.Domain.Entities
+﻿using Game.Forum.Domain.Common;
+
+namespace Game.Forum.Domain.Entities
 {
-    public class AnswerResponse
+    public class AnswerResponse : BaseEntity
     {
         public UserResponse User { get; set; }
         public DateTime CreatedDateTime { get; set; }

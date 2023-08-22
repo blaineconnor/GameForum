@@ -1,5 +1,4 @@
-﻿using Game.Forum.Application.Behaviors;
-using Game.Forum.Application.Models.DTOs.Delete;
+﻿using Game.Forum.Application.Models.DTOs.Delete;
 using Game.Forum.Application.Models.RequestModels.Answers;
 
 namespace Game.Forum.Application.Services.Abstraction
@@ -8,7 +7,8 @@ namespace Game.Forum.Application.Services.Abstraction
     {
         //Ekle, Sil
         Task AddAnswerAsync(AddAnswerVM addAnswerVM);
-        Task DeleteAnswerAsync(DeleteDto deleteDto);
+        Task DeleteAnswerAsync(DeleteAnswerVM deleteVM);
+        Task UpdateAnswerAsync(UpdateAnswerVM updateAnswerVM);
 
     }
 }

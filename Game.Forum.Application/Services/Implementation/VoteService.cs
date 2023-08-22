@@ -1,34 +1,43 @@
 ﻿using AutoMapper;
+using Game.Forum.Application.Behaviors;
 using Game.Forum.Application.Exceptions;
 using Game.Forum.Application.Models.DTOs.Vote;
+using Game.Forum.Application.Models.RequestModels.Votes;
 using Game.Forum.Application.Services.Abstraction;
+using Game.Forum.Application.Validators.Votes;
 using Game.Forum.Domain.Cache.Abstraction;
 using Game.Forum.Domain.Cache.Keys;
 using Game.Forum.Domain.Cache.Redis;
 using Game.Forum.Domain.Entities;
 using Game.Forum.Domain.Repositories;
+using Game.Forum.Domain.UnitofWork;
 
 namespace Game.Forum.Application.Services.Implementation
 {
     public class VoteService : IVoteService
     {
         private readonly IVoteRepository _voteRepository;
-        private readonly IUserRepository _userRepository;
+        private readonly IUnitofWork _uWork;
         private readonly IQuestionRepository _questionRepository;
         private readonly IMapper _mapper;
         private readonly IRedisCache _redisCache;
         private readonly IVoteCache _voteCache;
 
-        public VoteService(IVoteRepository voteRepository, IUserRepository userRepository, IQuestionRepository questionRepository, IMapper mapper, IRedisCache redisCache, IVoteCache voteCache)
+        public VoteService(IVoteRepository voteRepository, IUnitofWork uWork, IQuestionRepository questionRepository, IMapper mapper, IRedisCache redisCache, IVoteCache voteCache)
         {
             _voteRepository = voteRepository;
-            _userRepository = userRepository;
+            _uWork = uWork;
             _questionRepository = questionRepository;
             _mapper = mapper;
             _redisCache = redisCache;
             _voteCache = voteCache;
         }
 
+
+        #region Add Vote
+
+        [PerformanceBehavior]
+        [ValidationBehavior(typeof(CreateVoteValidator))]
         public async Task AddVote(AddVoteDto addVote)
         {
             await CheckUser(addVote);
@@ -60,21 +69,40 @@ namespace Game.Forum.Application.Services.Implementation
             await _voteCache.Remove(cacheKey);
         }
 
-        private async Task CheckUser(AddVoteDto addVoteContract)
+        #endregion
+
+        #region Delete Vote
+
+        [ValidationBehavior(typeof(DeleteVoteValidator))]
+        public async Task DeleteVote(DeleteVoteVM deleteVoteVM)
         {
-            var user = await _userRepository.GetByIdAsync(addVoteContract.UserId);
+            var deleteVote = await _questionRepository.GetByIdAsync(deleteVoteVM.VoteId);
+            while (deleteVote != null)
+            { throw new ClientSideException("Böyle bir oy yok"); };
+            await _questionRepository.RemoveAsync(deleteVote);
+        }
+
+        #endregion
+
+        #region Checking Sections
+
+        private async Task CheckUser(AddVoteDto addVoteDto)
+        {
+            var user = await _uWork.GetRepository<Account>().GetById(addVoteDto.UserId);
             if (user == null)
             {
                 throw new NotFoundException("User not found");
             }
         }
-        private async Task CheckQuestion(AddVoteDto addVoteContract)
+        private async Task CheckQuestion(AddVoteDto addVoteDto)
         {
-            var question = await _questionRepository.GetByIdAsync(addVoteContract.QuestionId);
+            var question = await _questionRepository.GetByIdAsync(addVoteDto.QuestionId);
             if (question == null)
             {
                 throw new NotFoundException("Question not found");
             }
         }
+
+        #endregion
     }
 }

@@ -1,6 +1,8 @@
-﻿namespace Game.Forum.Domain.Entities
+﻿using Game.Forum.Domain.Common;
+
+namespace Game.Forum.Domain.Entities
 {
-    public class QuestionDetailResponse
+    public class QuestionDetailResponse : BaseEntity
     {
         public UserResponse User { get; set; }
         public string Title { get; set; }

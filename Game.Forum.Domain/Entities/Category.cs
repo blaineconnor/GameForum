@@ -2,11 +2,10 @@
 
 namespace Game.Forum.Domain.Entities
 {
-    public class Category : BaseEntity, IEntity, IHasUpdatedAt, ISoftDelete
+    public class Category : AuditableEntity
     {
         public int CategoryId { get; set; }
         public string CategoryName { get; set; }
-        DateTime? IHasUpdatedAt.UpdatedTime { get; set; }
 
         #region NavigationProperties
         public ICollection<Question> Questions { get; set; }

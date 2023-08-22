@@ -5,9 +5,11 @@ using Game.Forum.Application.Models.DTOs.Delete;
 using Game.Forum.Application.Models.DTOs.Question;
 using Game.Forum.Application.Models.RequestModels.Question;
 using Game.Forum.Application.Services.Abstraction;
+using Game.Forum.Application.Validators.Questions;
 using Game.Forum.Domain.Cache.Abstraction;
 using Game.Forum.Domain.Entities;
 using Game.Forum.Domain.Repositories;
+using Game.Forum.Domain.UnitofWork;
 
 namespace Game.Forum.Application.Services.Implementation
 {
@@ -16,24 +18,26 @@ namespace Game.Forum.Application.Services.Implementation
         private readonly IQuestionRepository _questionRepository;
         private readonly IMapper _mapper;
         private readonly IFavoriteRepository _favoriteRepository;
-        private readonly IUserRepository _userRepository;
+        private readonly IUnitofWork _uWork;
         private readonly IFavoriteCache _favoriteCache;
         private readonly IQuestionDetailCache _questionDetailCache;
         private readonly IVoteCache _voteCache;
 
-
-        [PerformanceBehavior]
         public QuestionService(IQuestionRepository questionRepository, IMapper mapper, IFavoriteRepository favoriteRepository,
-            IUserRepository userRepository, IFavoriteCache favoriteCache = null, IQuestionDetailCache questionDetailCache = null, IVoteCache voteCache = null)
+            IUnitofWork uWork, IFavoriteCache favoriteCache = null, IQuestionDetailCache questionDetailCache = null, IVoteCache voteCache = null)
         {
             _questionRepository = questionRepository;
             _mapper = mapper;
             _favoriteRepository = favoriteRepository;
-            _userRepository = userRepository;
+            _uWork = uWork;
             _favoriteCache = favoriteCache;
             _questionDetailCache = questionDetailCache;
             _voteCache = voteCache;
         }
+        #region Add Question
+
+        [PerformanceBehavior]
+        [ValidationBehavior(typeof(AddQuestionValidator))]
 
         public async Task AddQuestionAsync(AddQuestionVM addQuestionVM)
         {
@@ -41,16 +45,23 @@ namespace Game.Forum.Application.Services.Implementation
             await _questionRepository.AddAsync(addQuestion);
         }
 
-       
-        public async Task DeleteFavorite(DeleteDto deleteDto)
+        #endregion
+
+        #region Update Question
+
+        [ValidationBehavior(typeof(UpdateQuestionValidator))]
+
+       public async Task UpdateQuestion(UpdateQuestionVM updateQuestionVM)
         {
-            var dbFavorite = await _favoriteRepository.GetByIdAsync(deleteDto.Id);
-            if (dbFavorite == null)
-            {
-                throw new ClientSideException("Favorite Bulunumadı");
-            }
-            await _favoriteRepository.RemoveAsync(dbFavorite);
+            var updateQuestion = _mapper.Map<Question>(updateQuestionVM);
+            await _questionRepository.UpdateAsync(updateQuestion);
         }
+
+        #endregion
+
+        #region Delete Question
+
+        [ValidationBehavior(typeof(DeleteQuestionValidator))]
 
         public async Task DeleteQuestion(DeleteDto deleteDto)
         {
@@ -62,23 +73,50 @@ namespace Game.Forum.Application.Services.Implementation
             await _questionRepository.RemoveAsync(dbQuestion);
         }
 
-        
+        #endregion
 
-        private async Task AddQuestionToFavHelper(AddQuestionToFavDto addQuestionToFavDto)
+        #region Favorites Tasks
+
+        public async Task DeleteFavorite(DeleteDto deleteDto)
         {
-            var user = await _userRepository.GetByIdAsync(addQuestionToFavDto.UserId);
+            var dbFavorite = await _favoriteRepository.GetByIdAsync(deleteDto.Id);
+            if (dbFavorite == null)
+            {
+                throw new ClientSideException("Favorite Bulunumadı");
+            }
+            await _favoriteRepository.RemoveAsync(dbFavorite);
+        }
+
+        
+        private async Task AddQuestionToFavHelper(AddQuestionToFav addQuestionToFavVM)
+        {
+            var user = await _uWork.GetRepository<Account>().GetById(addQuestionToFavVM.UserId);
             if (user == null)
             {
                 throw new NotFoundException("User not found");
             }
 
-            var question = await _questionRepository.GetByIdAsync(addQuestionToFavDto.QuestionId);
+            var question = await _questionRepository.GetByIdAsync(addQuestionToFavVM.QuestionId);
             if (question == null)
             {
                 throw new NotFoundException("Question not found");
             }
         }
-        private async Task CheckIfUserFavorited(AddQuestionToFavDto addQuestionToFavDto)
+
+        public async Task AddQuestionToFavAsync(AddQuestionToFav addQuestionToFavVM)
+        {
+            await CheckIfUserFavorited(addQuestionToFavVM);
+            await AddQuestionToFavHelper(addQuestionToFavVM);
+            var model = _mapper.Map<Favorite>(addQuestionToFavVM);
+            await _favoriteRepository.AddAsync(model);
+            await _favoriteCache.RemoveFavoriteCache(addQuestionToFavVM.QuestionId, addQuestionToFavVM.UserId);
+        }
+
+        #endregion
+
+        #region Checking Sections
+
+        private async Task CheckIfUserFavorited(AddQuestionToFav addQuestionToFavDto)
         {
             var favorite = await _favoriteRepository.CheckFavorite(addQuestionToFavDto.QuestionId, addQuestionToFavDto.UserId);
             if (favorite)
@@ -94,6 +132,11 @@ namespace Game.Forum.Application.Services.Implementation
             return Task.CompletedTask;
         }
 
+        #endregion
+
+        #region Get All Tasks
+
+        [PerformanceBehavior]
         public async Task<PaginationResponse<GetAllQuestions>> GetNewestQuestions(Pagination pagination)
         {
             var questions = await _questionRepository.GetNewestQuestions(pagination);
@@ -101,6 +144,7 @@ namespace Game.Forum.Application.Services.Implementation
             return questions;
         }
 
+        [PerformanceBehavior]
         public async Task<PaginationResponse<GetAllQuestions>> GetQuestionsByDescendingVote(Pagination pagination)
         {
             var questions = await _questionRepository.GetQuestionsByDescendingAnswer(pagination);
@@ -108,6 +152,7 @@ namespace Game.Forum.Application.Services.Implementation
             return questions;
         }
 
+        [PerformanceBehavior]
         public async Task<PaginationResponse<GetAllQuestions>> GetQuestionsByDescendingAnswer(Pagination pagination)
         {
             var questions = await _questionRepository.GetQuestionsByDescendingAnswer(pagination);
@@ -124,11 +169,12 @@ namespace Game.Forum.Application.Services.Implementation
             return questionResponse;
         }
 
-        public async Task AddQuestionToFavAsync(AddQuestionToFavVM addQuestionToFavVM)
-        {
-            var favorite = await _favoriteRepository.CheckFavorite(addQuestionToFavVM.QuestionId, addQuestionToFavVM.UserId);
-            if (favorite)
-            { throw new ClientSideException("bi kere daha favorilenemez"); }
-        }
+        #endregion
+
+
+
+
+
+      
     }
 }

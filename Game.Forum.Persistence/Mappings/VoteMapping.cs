@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Game.Forum.Persistence.Mappings
 {
-    public class VoteMapping : IEntityMapping<Vote>
+    public class VoteMapping : BaseEntityMapping<Vote>
     {
         public override void ConfigureDerivedEntityMapping(EntityTypeBuilder<Vote> builder)
         {

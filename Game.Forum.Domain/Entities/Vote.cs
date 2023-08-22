@@ -2,7 +2,7 @@
 
 namespace Game.Forum.Domain.Entities
 {
-    public class Vote : BaseEntity, IEntity
+    public class Vote : BaseEntity
     {
         public int Id { get; set; }
         public int UserId { get; set; }
@@ -10,8 +10,8 @@ namespace Game.Forum.Domain.Entities
         public bool? Voted { get; set; }
 
         #region NavigationProperties
-        public virtual Question Question { get; set; } = null!;
-        public virtual User User { get; set; } = null!;
+        public virtual Question Question { get; set; }
+        public virtual User User { get; set; }
 
         #endregion
     }

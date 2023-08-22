@@ -2,7 +2,7 @@
 
 namespace Game.Forum.Domain.Entities
 {
-    public class QuestionView : IEntity
+    public class QuestionView : BaseEntity
     {
         public int Id { get; set; }
         public int QuestionId { get; set; }

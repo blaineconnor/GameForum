@@ -6,7 +6,7 @@ using System.Linq.Expressions;
 
 namespace Game.Forum.Persistence.Repositories
 {
-    public class GenericRepository<T> : IGenericRepository<T> where T : class, IEntity
+    public class GenericRepository<T> : IGenericRepository<T> where T : class
     {
         protected readonly GameForumContext _context;
         private readonly DbSet<T> _dbSet;
@@ -38,18 +38,11 @@ namespace Game.Forum.Persistence.Repositories
         public async Task<T> GetByIdAsync(object id)
         {
             return await _dbSet.FindAsync(id);
-        }
-
-        public  IRepository<T1> GetRepository<T1>() where T1 : BaseEntity, IEntity, ISoftDelete, IHasUpdatedAt
-        {
-            return (IRepository<T1>)Task.FromResult(_dbSet.ToList());
-        }
-
-        
+        }       
 
         public async Task RemoveAsync(T entity, bool hardDelete = false)
         {
-            if (entity is ISoftDelete soft && !hardDelete)
+            if (entity is BaseEntity soft && !hardDelete)
             {
                 soft.IsDeleted = true;
                 await UpdateAsync(entity);
@@ -73,7 +66,7 @@ namespace Game.Forum.Persistence.Repositories
             await RemoveAsync(entity, hardDelete);
         }
 
-        public async Task UpdateAsync(IEntity _entity)
+        public async Task UpdateAsync(BaseEntity _entity)
         {
             var entity = await GetByIdAsync(_entity.Id);
 
@@ -81,9 +74,9 @@ namespace Game.Forum.Persistence.Repositories
             {
                 throw new Exception("");
             }
-            if (entity is IHasUpdatedAt at)
+            if (entity is AuditableEntity at)
             {
-                at.UpdatedTime = DateTime.Now;
+                at.ModifiedDate = DateTime.Now;
             }
             _context.Entry(entity).CurrentValues.SetValues(entity);
             await SaveChanges();

@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Game.Forum.Persistence.Mappings
 {
-    public class CategoryMapping : BaseEntityMapping<Category>
+    public class CategoryMapping : AuditableEntityMapping<Category>
     {
         public override void ConfigureDerivedEntityMapping(EntityTypeBuilder<Category> builder)
         {
