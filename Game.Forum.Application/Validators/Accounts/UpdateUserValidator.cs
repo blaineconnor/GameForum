@@ -14,6 +14,7 @@ namespace Game.Forum.Application.Validators.Accounts
             RuleFor(x => x.Surname)
                 .NotEmpty().WithMessage("Soyad bilgisi boş olamaz.")
                 .MaximumLength(30).WithMessage("Soyad bilgisi 30 karakterden büyük olamaz.");
+
             RuleFor(x => x.Email)
                 .NotEmpty().WithMessage("e-Posta bilgisi boş olamaz.")
                 .MaximumLength(40).WithMessage("e-Posta bilgisi 40 karakterden büyük olamaz")

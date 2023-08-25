@@ -19,13 +19,10 @@ namespace Game.Forum.Application.Services.Abstraction
 
         Task AddQuestionAsync(AddQuestionVM addQuestionVM);
 
-        Task AddQuestionToFavAsync(AddQuestionToFav addQuestionToFav);
-
         Task UpdateQuestion(UpdateQuestionVM updateQuestionVM);
 
         Task DeleteQuestion(DeleteDto deleteDto);
-        Task DeleteFavorite(DeleteDto deleteDto);
-
+ 
         #endregion
 
 

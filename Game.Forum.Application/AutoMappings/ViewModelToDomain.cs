@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Game.Forum.Application.Models.RequestModels.Accounts;
+using Game.Forum.Application.Models.RequestModels.Answers;
 using Game.Forum.Application.Models.RequestModels.Categories;
 using Game.Forum.Application.Models.RequestModels.Question;
 using Game.Forum.Application.Models.RequestModels.Votes;
@@ -18,6 +19,8 @@ namespace Game.Forum.Application.AutoMappings
                 .ForMember(x => x.Role, y => y.MapFrom(e => Roles.User));
 
             CreateMap<UpdateUserVM, User>();
+            CreateMap<UpdateUserVM, Account>();
+
 
             #endregion
 
@@ -35,9 +38,11 @@ namespace Game.Forum.Application.AutoMappings
             CreateMap<AddQuestionVM, Question>();
 
             CreateMap<AddQuestionToFavVM, Favorite>();
+            CreateMap<AddAnswerVM, Answer>();
 
             //Oy
             CreateMap<AddVoteVM, Vote>();
+
 
             #endregion                                
 

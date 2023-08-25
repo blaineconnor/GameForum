@@ -34,10 +34,11 @@ namespace Game.Forum.Persistence.Mappings
                 .HasColumnName("LAST_LOGIN_IP")
                 .IsRequired(false)
                 .HasColumnOrder(6);
+
             builder.Property(x => x.IsDeleted)
                 .HasColumnType("bit")
                 .HasColumnName("IS_DELETED")
-                .HasColumnOrder (1);
+                .IsRequired(false);
 
             builder.Property(x => x.Role)
                 .HasColumnName("ROLE_ID")
@@ -46,6 +47,8 @@ namespace Game.Forum.Persistence.Mappings
             builder.HasOne(x => x.User)
                 .WithOne(x => x.Account)
                 .HasForeignKey<Account>(x => x.UserId);
+
+          
 
             builder.ToTable("ACCOUNTS");
         }

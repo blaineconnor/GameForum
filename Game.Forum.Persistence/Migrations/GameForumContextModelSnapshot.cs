@@ -41,40 +41,57 @@ namespace Game.Forum.Persistence.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnName("ID")
+                        .HasColumnOrder(1);
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
+                    b.Property<bool?>("IsDeleted")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasColumnName("IS_DELETED")
+                        .HasColumnOrder(30)
+                        .HasDefaultValueSql("0");
 
                     b.Property<DateTime?>("LastLoginDate")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime2")
+                        .HasColumnName("LAST_LOGIN_DATE")
+                        .HasColumnOrder(5);
 
                     b.Property<string>("LastUserIp")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(50)")
+                        .HasColumnName("LAST_LOGIN_IP")
+                        .HasColumnOrder(6);
 
                     b.Property<string>("Password")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(100)")
+                        .HasColumnName("PASSWORD")
+                        .HasColumnOrder(4);
 
                     b.Property<int>("Role")
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnName("ROLE_ID")
+                        .HasColumnOrder(7);
 
                     b.Property<int>("UserId")
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnName("USER_ID")
+                        .HasColumnOrder(2);
 
                     b.Property<string>("Username")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(10)")
+                        .HasColumnName("USER_NAME")
+                        .HasColumnOrder(3);
 
                     b.HasKey("Id");
 
                     b.HasIndex("UserId")
                         .IsUnique();
 
-                    b.ToTable("Account");
+                    b.ToTable("ACCOUNTS", (string)null);
                 });
 
             modelBuilder.Entity("Game.Forum.Domain.Entities.Answer", b =>
@@ -104,7 +121,7 @@ namespace Game.Forum.Persistence.Migrations
                     b.Property<bool>("IsBestAnswer")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("IsDeleted")
+                    b.Property<bool?>("IsDeleted")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bit")
                         .HasColumnName("IS_DELETED")
@@ -141,9 +158,6 @@ namespace Game.Forum.Persistence.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("CategoryId")
-                        .HasColumnType("int");
-
                     b.Property<string>("CategoryName")
                         .IsRequired()
                         .HasColumnType("nvarchar(100)")
@@ -160,7 +174,7 @@ namespace Game.Forum.Persistence.Migrations
                         .HasColumnName("CREATED_BY")
                         .HasColumnOrder(27);
 
-                    b.Property<bool>("IsDeleted")
+                    b.Property<bool?>("IsDeleted")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bit")
                         .HasColumnName("IS_DELETED")
@@ -197,7 +211,7 @@ namespace Game.Forum.Persistence.Migrations
                         .HasColumnType("datetime")
                         .HasDefaultValueSql("(getdate())");
 
-                    b.Property<bool>("IsDeleted")
+                    b.Property<bool?>("IsDeleted")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bit")
                         .HasColumnName("IS_DELETED")
@@ -246,7 +260,7 @@ namespace Game.Forum.Persistence.Migrations
                         .HasColumnType("datetime")
                         .HasDefaultValueSql("(getdate())");
 
-                    b.Property<bool>("IsDeleted")
+                    b.Property<bool?>("IsDeleted")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bit")
                         .HasColumnName("IS_DELETED")
@@ -287,7 +301,7 @@ namespace Game.Forum.Persistence.Migrations
                         .HasColumnType("datetime")
                         .HasDefaultValueSql("(getdate())");
 
-                    b.Property<bool>("IsDeleted")
+                    b.Property<bool?>("IsDeleted")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bit")
                         .HasColumnName("IS_DELETED")
@@ -314,8 +328,8 @@ namespace Game.Forum.Persistence.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasColumnName("USER_ID")
-                        .HasColumnOrder(2);
+                        .HasColumnName("ID")
+                        .HasColumnOrder(1);
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
@@ -336,17 +350,20 @@ namespace Game.Forum.Persistence.Migrations
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("nvarchar(150)")
+                        .HasColumnName("EMAIL")
+                        .HasColumnOrder(7);
 
                     b.Property<int>("Gender")
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnName("GENDER")
+                        .HasColumnOrder(10);
 
                     b.Property<string>("Image")
                         .IsUnicode(false)
                         .HasColumnType("varchar(max)");
 
-                    b.Property<bool>("IsDeleted")
+                    b.Property<bool?>("IsDeleted")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bit")
                         .HasColumnName("IS_DELETED")
@@ -365,13 +382,15 @@ namespace Game.Forum.Persistence.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("nvarchar(30)")
+                        .HasColumnName("NAME")
+                        .HasColumnOrder(5);
 
                     b.Property<string>("Surname")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("nvarchar(30)")
+                        .HasColumnName("SURNAME")
+                        .HasColumnOrder(6);
 
                     b.HasKey("Id");
 
@@ -388,7 +407,7 @@ namespace Game.Forum.Persistence.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<bool>("IsDeleted")
+                    b.Property<bool?>("IsDeleted")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bit")
                         .HasColumnName("IS_DELETED")
@@ -487,7 +506,7 @@ namespace Game.Forum.Persistence.Migrations
                         .WithMany("Questions")
                         .HasForeignKey("UserId")
                         .IsRequired()
-                        .HasConstraintName("FK_Question_User");
+                        .HasConstraintName("Question_User");
 
                     b.Navigation("User");
                 });

@@ -9,11 +9,11 @@ namespace Game.Forum.Application.Validators.Accounts
         {
             RuleFor(x => x.Username)
                 .NotEmpty().WithMessage("Kullanıcı adı boş olamaz.")
-                .MaximumLength(10).WithMessage("Kullanıcı adı en fazla 10 karakter olabilir.");
+                .MaximumLength(30).WithMessage("Kullanıcı adı en fazla 30 karakter olabilir.");
 
             RuleFor(x => x.Password)
                 .NotEmpty().WithMessage("Parola boş olamaz.")
-                .MaximumLength(10).WithMessage("Parola en fazla 10 karakter olabilir.");
+                .MaximumLength(30).WithMessage("Parola en fazla 30 karakter olabilir.");
         }
     }
 }

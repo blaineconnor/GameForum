@@ -16,7 +16,7 @@ namespace Game.Forum.Persistence.Context
             _loggedUserService = loggedUserService;
         }
 
-        public virtual DbSet<Account> Accounts { get; set; }
+        public virtual DbSet<Account> Accounts { get; set; } = null!;
         public virtual DbSet<Answer> Answers { get; set; } = null!;
         public virtual DbSet<Favorite> Favorites { get; set; } = null!;
         public virtual DbSet<Question> Questions { get; set; } = null!;

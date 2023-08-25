@@ -24,13 +24,14 @@ namespace Game.Forum.Persistence.Mappings
                 .HasMaxLength(1000)
                 .IsUnicode(false);
 
-            builder.Property(e => e.UpdatedTime).HasColumnType("datetime");
+            builder.Property(e => e.UpdatedTime)
+                .HasColumnType("datetime");
 
             builder.HasOne(d => d.User)
                 .WithMany(p => p.Questions)
                 .HasForeignKey(d => d.UserId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Question_User");
+                .HasConstraintName("Question_User");
 
             builder.ToTable("QUESTIONS");
         }

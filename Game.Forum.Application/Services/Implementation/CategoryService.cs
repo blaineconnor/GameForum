@@ -9,7 +9,7 @@ using Game.Forum.Application.Validators.Categories;
 using Game.Forum.Application.Wrapper;
 using Game.Forum.Domain.Entities;
 using Game.Forum.Domain.UnitofWork;
-using System.Data.Entity;
+using Microsoft.EntityFrameworkCore;
 
 namespace Game.Forum.Application.Services.Implementation
 {
@@ -24,7 +24,6 @@ namespace Game.Forum.Application.Services.Implementation
             _db = db;
         }
 
-        #region Tüm kategorileri getir 
 
         [PerformanceBehavior]
         public async Task<Result<List<CategoryDto>>> GetAllCategories()
@@ -32,18 +31,14 @@ namespace Game.Forum.Application.Services.Implementation
             var result = new Result<List<CategoryDto>>();
 
             var categoryEntites = await _db.GetRepository<Category>().GetAllAsync();
-
             var categoryDtos = await categoryEntites.ProjectTo<CategoryDto>(_mapper.ConfigurationProvider)
                 .ToListAsync();
-
             result.Data = categoryDtos;
             _db.Dispose();
             return result;
         }
 
-        #endregion
-
-        #region Tüm kategorileri ID'ye göre getir
+        #region Kategorileri ID'ye göre getir
 
         [ValidationBehavior(typeof(GetCategoryByIdValidator))]
         public async Task<Result<CategoryDto>> GetCategoryById(GetCategoryByIdVM getCategoryByIdVM)

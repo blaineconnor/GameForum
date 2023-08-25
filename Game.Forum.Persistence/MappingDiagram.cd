@@ -15,7 +15,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="Game.Forum.Persistence.Mappings.AuditableEntityMapping&lt;T&gt;">
-    <Position X="5.5" Y="0.5" Width="1.5" />
+    <Position X="6.75" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAABAAAAAAAAAIAAAAAAAAAAAAAA=</HashCode>
       <FileName>Mappings\AuditableEntityMapping.cs</FileName>
@@ -31,7 +31,7 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="Game.Forum.Persistence.Mappings.CategoryMapping">
-    <Position X="4.5" Y="2" Width="1.5" />
+    <Position X="6" Y="2" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAA=</HashCode>
       <FileName>Mappings\CategoryMapping.cs</FileName>
@@ -59,7 +59,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="Game.Forum.Persistence.Mappings.UserMapping">
-    <Position X="6.5" Y="2" Width="1.5" />
+    <Position X="7.75" Y="2" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAA=</HashCode>
       <FileName>Mappings\UserMapping.cs</FileName>

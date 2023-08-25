@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Game.Forum.Application.Behaviors;
 using Game.Forum.Application.Exceptions;
+using Game.Forum.Application.Models.DTOs.Accounts;
 using Game.Forum.Application.Models.DTOs.Delete;
 using Game.Forum.Application.Models.RequestModels.Accounts;
 using Game.Forum.Application.Services.Abstraction;
@@ -10,6 +11,10 @@ using Game.Forum.Domain.Entities;
 using Game.Forum.Domain.UnitofWork;
 using Game.Forum.Utils;
 using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 
 namespace Game.Forum.Application.Services.Implementation
 {
@@ -53,7 +58,7 @@ namespace Game.Forum.Application.Services.Implementation
                 .EncryptString(_configuration["AppSettings:SecretKey"], accountEntity.Password);
 
             accountEntity.User = userEntity;
-                        
+
             _uWork.GetRepository<User>().Add(userEntity);
             _uWork.GetRepository<Account>().Add(accountEntity);
             result.Data = await _uWork.CommitAsync();
@@ -65,9 +70,9 @@ namespace Game.Forum.Application.Services.Implementation
         #region Gönderilen kullanıcı adı ve parola ile login işlemini gerçekleştirir.
 
         [ValidationBehavior(typeof(LoginValidator))]
-        public async Task<Result<bool>> Login(LoginVM loginVM)
+        public async Task<Result<TokenDto>> Login(LoginVM loginVM)
         {
-            var result = new Result<bool>();
+            var result = new Result<TokenDto>();
             var hashedPassword = CipherUtil.EncryptString(_configuration["AppSettings:SecretKey"], loginVM.Password);
             var existsAccount = await _uWork.GetRepository<Account>().GetSingleByFilterAsync(x => x.Username == loginVM.Username && x.Password == hashedPassword, "User");
 
@@ -75,7 +80,19 @@ namespace Game.Forum.Application.Services.Implementation
             {
                 throw new NotFoundException($"{loginVM.Username} kullanıcı adına sahip kullanıcı bulunamadı ye da parola hatalıdır.");
             }
-         
+
+            var expireMinute = Convert.ToInt32(_configuration["Jwt:Expire"]);
+            var expireDate = DateTime.Now.AddMinutes(expireMinute);
+
+            //Token'i üret ve return et.
+            var tokenString = GenerateJwtToken(existsAccount, expireDate);
+            result.Data = new TokenDto
+            {
+                Token = tokenString,
+                ExpireDate = expireDate,
+                Role = existsAccount.Role
+            };
+
             return result;
         }
 
@@ -99,17 +116,33 @@ namespace Game.Forum.Application.Services.Implementation
         }
         #endregion
 
-        #region Kullanıcı bilgilerini silmek için kullanılan servis metodu.
-
-        [ValidationBehavior(typeof(DeleteUserValidator))]
-        public async Task DeleteUser(DeleteDto deleteDto)
+        private string GenerateJwtToken(Account account, DateTime expireDate)
         {
-            var dbUser = await _uWork.GetRepository<Account>().GetById(deleteDto.Id);
-            if (dbUser?.IsDeleted == true) { throw new ClientSideException("Kullanıcı bulunamadı"); };
-            _uWork.GetRepository<Account>().Delete(dbUser);
-        }
+            var secretKey = _configuration["Jwt:SigningKey"];
+            var issuer = _configuration["Jwt:Issuer"];
+            var audiance = _configuration["Jwt:Audiance"];
 
-        #endregion
-        
+            var claims = new Claim[]
+            {
+                new Claim(ClaimTypes.Role,account.Role.ToString()),
+                new Claim(ClaimTypes.Name,account.Username),
+                new Claim(ClaimTypes.Email,account.User.Email), //Account entity'sini Customer'a bağlayannavigation property
+                new Claim(ClaimTypes.Sid,account.UserId.ToString())
+            };
+
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var key = Encoding.UTF8.GetBytes(secretKey);
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Audience = audiance,
+                Issuer = issuer,
+                Subject = new ClaimsIdentity(claims),
+                Expires = expireDate, // Token süresi (örn: 20 dakika)
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+            };
+
+            var token = tokenHandler.CreateToken(tokenDescriptor);
+            return tokenHandler.WriteToken(token);
+        }
     }
 }

@@ -23,7 +23,7 @@ namespace Game.Forum.Api.Controllers
         public async Task<IActionResult> AddQuestion(AddQuestionVM addQuestionVM)
         {
             await _questionService.AddQuestionAsync(addQuestionVM);
-            return Ok(UserResponseVM.Success(null, HttpStatusCode.OK)); // null yerine addQuestionContract yazılabilir diye düşündük
+            return Ok(UserResponseVM.Success(null, HttpStatusCode.OK));
         }
         [HttpPost("[action]")]
         public async Task<IActionResult> GetNewestQuestion(Pagination paginationVM)
@@ -46,34 +46,17 @@ namespace Game.Forum.Api.Controllers
             return Ok(UserResponseVM.Success(questions, HttpStatusCode.OK));
         }
 
-
         [HttpPost("[action]")]
-        public async Task<IActionResult> AddQuestionToFav(AddQuestionToFav addQuestionToFav)
-        {
-
-            await _questionService.AddQuestionToFavAsync(addQuestionToFav);
-            return Ok(UserResponseVM.Success(null, HttpStatusCode.OK));
-        }
-        [HttpGet("[action]")]
         public async Task<IActionResult> GetQuestionDetail(int id, int userId)
         {
             var questionDetails = await _questionService.GetQuestionsWithDetail(id, userId);
             return Ok(UserResponseVM.Success(questionDetails, HttpStatusCode.OK));
         }
-        [HttpPost("[action]")]
+        [HttpDelete("[action]")]
         public async Task<IActionResult> DeleteQuestion(DeleteDto deleteDto)
         {
             await _questionService.DeleteQuestion(deleteDto);
             return Ok(UserResponseVM.Success(null, HttpStatusCode.OK));
         }
-        [HttpPost("[action]")]
-        public async Task<IActionResult> DeleteFavorite(DeleteDto deleteDto)
-        {
-            await _questionService.DeleteFavorite(deleteDto);
-            return Ok(UserResponseVM.Success(null, HttpStatusCode.OK));
-        }
-
-
-
     }
 }

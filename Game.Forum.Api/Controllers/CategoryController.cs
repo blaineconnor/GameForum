@@ -7,10 +7,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Game.Forum.Api.Controllers
 {
-
-    //Endpoint url : [ControllerRoute]/[ActionRoute]
-    //category/getAll
-
     [ApiController]
     [Route("category")]
     [Authorize(Roles = "Admin")]
@@ -31,7 +27,7 @@ namespace Game.Forum.Api.Controllers
             return Ok(categories);
         }
 
-        [HttpGet("get/{id:int}")]
+        [HttpGet("get/{id}")]
         [AllowAnonymous]
         public async Task<ActionResult<Result<CategoryDto>>> GetCategoryById(int id)
         {
@@ -40,7 +36,7 @@ namespace Game.Forum.Api.Controllers
         }
 
         [HttpPost("create")]
-        [AllowAnonymous]
+
         public async Task<ActionResult<Result<int>>> CreateCategory(CreateCategoryVM createCategoryVM)
         {
             var categoryId = await _categoryService.CreateCategory(createCategoryVM);
@@ -48,7 +44,7 @@ namespace Game.Forum.Api.Controllers
         }
 
         [HttpPut("update/{id:int}")]
-        [AllowAnonymous]
+
         public async Task<ActionResult<Result<int>>> UpdateCategory(int id, UpdateCategoryVM updateCategoryVM)
         {
             if (id != updateCategoryVM.Id)
@@ -60,7 +56,7 @@ namespace Game.Forum.Api.Controllers
         }
 
         [HttpDelete("delete/{id:int}")]
-        [AllowAnonymous]
+
         public async Task<ActionResult<Result<int>>> DeleteCategory(int id)
         {
             var categoryId = await _categoryService.DeleteCategory(new DeleteCategoryVM { Id = id });

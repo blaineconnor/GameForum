@@ -1,0 +1,33 @@
+﻿@model IEnumerable<Game.Forum.UI.Models.DTOs.Category.CategoryDto>
+
+@{
+    ViewData["Title"] = "List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Kategoriler</h1>
+
+<p>
+
+</p>
+<table class="table">
+    <thead>
+        <tr>            
+            <th>
+               
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.CategoryName)
+            </td>
+            <td>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

@@ -18,9 +18,10 @@ namespace Game.Forum.Api.Controllers
 
 
         [HttpPost(Name = "steamGameInfo")]
-        public IEnumerable<Listing> GetByCulture([FromBody] GetSteamGameInfoRequestModel request)
+        public  IEnumerable<Listing> GetByCulture([FromBody] GetSteamGameInfoRequestModel request)
         {
             var result = _steamService.GetListings(request.Game, request.Culture);
+
             return result;
         }
     }

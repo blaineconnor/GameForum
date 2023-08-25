@@ -46,7 +46,14 @@ namespace Game.Forum.Application.AutoMappings
                 .ForMember(x => x.Vote, y => y.MapFrom(e => e.Votes))
                 .ForMember(x => x.View, y => y.MapFrom(e => e.QuestionViews))
                 .ForMember(x => x.Answer, y => y.MapFrom(e => e.Answers));
-                
+
+            CreateMap<AddQuestionToFav, AddQuestionToFavDto>();
+
+            #region custom
+            CreateMap<AddQuestionToFav, Favorite>();
+            CreateMap<AddVoteDto, Vote>();
+            #endregion
+
 
         }
     }

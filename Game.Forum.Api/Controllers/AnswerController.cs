@@ -24,14 +24,12 @@ namespace Game.Forum.Api.Controllers
             await _answerService.AddAnswerAsync(addAnswerVM);
             return Ok(UserResponseVM.Success(null, HttpStatusCode.OK));
         }
-        [HttpPost("[action]")]
+        [HttpDelete("[action]")]
         public async Task<IActionResult> DeleteAnswer(DeleteAnswerVM deleteAnswerVM)
         {
             await _answerService.DeleteAnswerAsync(deleteAnswerVM);
             return Ok(UserResponseVM.Success("Yanıt Silindi", HttpStatusCode.OK));
 
         }
-
-
     }
 }

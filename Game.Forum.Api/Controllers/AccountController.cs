@@ -7,10 +7,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Game.Forum.Api.Controllers
 {
-
-    //Endpoint url : [ControllerRoute]/[ActionRoute]
-    //category/getAll
-
     [ApiController]
     [Route("account")]
     [Authorize]
@@ -34,7 +30,7 @@ namespace Game.Forum.Api.Controllers
 
         [HttpPost("login")]
         [AllowAnonymous]
-        public async Task<ActionResult<Result<bool>>> Login(LoginVM loginVM)
+        public async Task<ActionResult<Result<TokenDto>>> Login(LoginVM loginVM)
         {
             var result = await _accountService.Login(loginVM);
             return Ok(result);
@@ -50,7 +46,6 @@ namespace Game.Forum.Api.Controllers
             var result = await _accountService.UpdateUser(updateUserVM);
             return Ok(result);
         }
-
     }
 }
 

@@ -7,7 +7,7 @@ namespace Game.Forum.Persistence.Mappings
     public class UserMapping : AuditableEntityMapping<User>
     {
         public override void ConfigureDerivedEntityMapping(EntityTypeBuilder<User> builder)
-        {        
+        {
             builder.Property(x => x.Name)
                 .HasColumnName("NAME")
                 .HasColumnType("nvarchar(30)")
@@ -35,7 +35,7 @@ namespace Game.Forum.Persistence.Mappings
             builder.Property(x => x.IsDeleted)
                 .HasColumnType("bit")
                 .HasColumnName("IS_DELETED")
-                .HasColumnOrder(1);
+                .IsRequired(false);
 
             builder.Property(x => x.Gender)
                 .HasColumnName("GENDER")
