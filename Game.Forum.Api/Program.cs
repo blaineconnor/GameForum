@@ -48,7 +48,7 @@ builder.Services.AddControllers(opt =>
 
 builder.Services.AddSwaggerGen(c =>
 {
-    c.SwaggerDoc("v1", new OpenApiInfo { Title = "JwtTokenWithIdentity", Version = "v1", Description = "JwtTokenWithIdentity test app" });
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "GameGourmetForum", Version = "v1", Description = "requires JwtTokenWithIdentity" });
     c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
     {
         Name = "Authorization",

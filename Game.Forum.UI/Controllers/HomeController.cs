@@ -2,6 +2,7 @@
 using Game.Forum.UI.Models;
 using Game.Forum.UI.Models.RequestModels.Answers;
 using Game.Forum.UI.Models.RequestModels.Question;
+using Game.Forum.UI.Models.RequestModels.User;
 using Game.Forum.UI.Models.Wrapper;
 using Game.Forum.UI.Services.Abstraction;
 using Microsoft.AspNetCore.Mvc;
@@ -26,47 +27,27 @@ namespace Game.Forum.UI.Controllers
         {
             return View();
         }
-      
-  
+
         public IActionResult Contact()
-        {
-            return View();
-        }
-        public IActionResult AboutUs()
         {
             return View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddAnswer(AddAnswerVM addAnswerVM)
+        public async Task<IActionResult> Contact(UserContactVM userContactVM)
         {
             if (!ModelState.IsValid)
             {
-                return View(addAnswerVM);
+                return View(userContactVM);
             }
-            var response = await _restService.GetAsync<Result<List<AddAnswerVM>>>("answer/details");
+            var response = await _restService.PostAsync<Result<List<UserContactVM>>>("index/contact");
 
-            return View(response.Data.Data);
+            return View(userContactVM);
         }
-        [HttpDelete]
-        public async Task<IActionResult> DeleteAnswer(DeleteAnswerVM deleteAnswerVM)
+        public IActionResult AboutUs()
         {
-            var response = await _restService.DeleteAsync<Result<int>>($"answer/delete");
-
-            return Json(response.Data);
-
+            return View();
         }
-        [HttpPost("[action]")]
-        public async Task<IActionResult> AddQuestion(AddQuestionVM addQuestionVM)
-        {
-            if (!ModelState.IsValid)
-            {
-                return View(addQuestionVM);
-            }
-            var response = await _restService.GetAsync<Result<List<AddQuestionVM>>>("question/details");
-            return View(response.Data.Data);
-        }
-
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

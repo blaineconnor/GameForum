@@ -30,7 +30,6 @@ namespace Game.Forum.UI.Controllers
         [HttpPost]
         public async Task<IActionResult> SignIn(LoginVM loginModel, [FromQuery] string ReturnUrl)
         {
-            //Model doğrulamasını geçemeyen kullanıcıyı buradan tekrar login sayfasına gönder.
             if (!ModelState.IsValid)
             {
                 return View(loginModel);
@@ -56,8 +55,14 @@ namespace Game.Forum.UI.Controllers
 
             return View(loginModel);
         }
+
+        public IActionResult Register()
+        {
+            return View();
+        }
+
         [HttpPost]
-        public async Task<IActionResult> Register(RegisterVM registerVM, [FromQuery] string ReturnUrl)
+        public async Task<IActionResult> Register(RegisterVM registerVM)
         {
             if (!ModelState.IsValid)
             {

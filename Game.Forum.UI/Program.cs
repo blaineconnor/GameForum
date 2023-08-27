@@ -39,12 +39,11 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
             OnRedirectToLogin = context =>
             {
 
-                //Eðer admin tarafýnda login olmadan yetki gerektiren bir sayfaya gitmeye çalýþýrsa admin login gelsin
                 if (context.Request.Path.Value.Contains("admin"))
                 {
                     context.Response.Redirect("/admin/login/signin");
                 }
-                else //sunum projesinde ise o projeye ait login gelsin
+                else 
                 {
                     context.Response.Redirect("/Account/SignIn");
                 }

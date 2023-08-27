@@ -2,7 +2,7 @@
 {
     public class AddAnswerVM
     {
-        public int UserId { get; set; }
+        public string Username { get; set; }
         public int QuestionId { get; set; }
         public string Content { get; set; }
     }

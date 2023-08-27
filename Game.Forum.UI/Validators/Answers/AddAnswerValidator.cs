@@ -7,11 +7,10 @@ namespace Game.Forum.UI.Validators.Answers
     {
         public AddAnswerValidator()
         {
-            RuleFor(u => u.UserId)
+            RuleFor(u => u.Username)
                 .NotNull()
                 .NotEmpty()
                 .WithMessage("Kullanıcı kimliği boş olamaz.")
-                .GreaterThan(0)
                 .WithMessage("Kullanıcı kimlik bilgisi sıfırdan büyük olmalıdır.");
 
 

@@ -46,12 +46,6 @@ namespace Game.Forum.Api.Controllers
             return Ok(UserResponseVM.Success(questions, HttpStatusCode.OK));
         }
 
-        [HttpPost("[action]")]
-        public async Task<IActionResult> GetQuestionDetail(int id, int userId)
-        {
-            var questionDetails = await _questionService.GetQuestionsWithDetail(id, userId);
-            return Ok(UserResponseVM.Success(questionDetails, HttpStatusCode.OK));
-        }
         [HttpDelete("[action]")]
         public async Task<IActionResult> DeleteQuestion(DeleteDto deleteDto)
         {
